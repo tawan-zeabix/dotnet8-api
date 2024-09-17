@@ -6,16 +6,14 @@
 
 โครงสร้างของโปรเจคถูกจัดตามนี้:
 
-1. `ExampleApi` เป็นโฟลเดอร์ที่ใช้เก็บ Source code สำหรับพัฒนา Service ทั้งหมด
-2. `ExampleApi.Test` เป็นโฟลเดอร์ใช้เก็บ Source code Unit test
-
-![](./img/1.png)
+1. `API` เป็นโฟลเดอร์ที่ใช้เก็บ Source code สำหรับพัฒนา Service ทั้งหมด
+2. `Test` เป็นโฟลเดอร์ใช้เก็บ Source code Unit test
 
 ### ExampleApi
 
 โครงสร้างของ Service โฟลเดอร์ถูกจัดตามนี้:
 
-![](./img/2.png)
+![](https://i.imgur.com/hufEZkZ.png)
 
 1. `Controllers` ประกอบด้วยตัวควบคุมเส้นทางของ API ที่จัดการ HTTP Request and Response ตัวอย่าง
 
