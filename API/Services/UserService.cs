@@ -1,3 +1,5 @@
+using API.DTOs.Request;
+using API.Enums;
 using API.Helpers;
 using API.Models;
 using API.Repositories.Interfaces;
@@ -29,10 +31,17 @@ public class UserService : IUserService
         return user;
     }
 
-    public async Task CreateUser(UserModel user)
+    public async Task CreateUser(CreateUserDto model)
     {
         try
         {
+            UserModel user = new UserModel()
+            {
+                Id = 0,
+                Email = model.Email,
+                Username = model.Username,
+                Role = model.Role ?? UserRole.User
+            };
             await _userRepository.CreateAsync(user);
         }
         catch (Exception e)
@@ -42,10 +51,19 @@ public class UserService : IUserService
         }
     }
 
-    public async Task UpdateUser(UserModel user)
+    public async Task UpdateUser(int id, CreateUserDto model)
     {
+        UserModel? user = await _userRepository.GetByIdAsync(id);
+        if (user == null)
+        {
+            throw new NotFoundException("User not found");
+        }
+        
         try
         {
+            user.Username = model.Username;
+            user.Email = model.Email;
+            user.Role = model.Role ?? UserRole.User;
             await _userRepository.UpdateAsync(user);
         }
         catch (Exception e)
@@ -57,13 +75,14 @@ public class UserService : IUserService
 
     public async Task DeleteUser(int id)
     {
+        UserModel? user = await _userRepository.GetByIdAsync(id);
+        if (user == null)
+        {
+            throw new NotFoundException("User not found");
+        }
         try
         {
-            UserModel? user = await _userRepository.GetByIdAsync(id);
-            if (user == null)
-            {
-                throw new NotFoundException("User not found");
-            }
+            await _userRepository.DeleteAsync(user);
         }
         catch (Exception e)
         {

@@ -1,3 +1,4 @@
+using API.DTOs.Request;
 using API.Models;
 using API.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
@@ -31,8 +32,23 @@ public class UserController : ControllerBase
     }
 
     [HttpPost]
-    public async Task CreateUser(UserModel user)
+    public async Task<IActionResult> CreateUser(CreateUserDto model)
     {
-        await _userService.CreateUser(user);
+        await _userService.CreateUser(model);
+        return Created();
+    }
+
+    [HttpPut("{id}")]
+    public async Task<IActionResult> UpdateUser(int id, [FromBody] CreateUserDto model)
+    {
+        await _userService.UpdateUser(id, model);
+        return NoContent();
+    }
+
+    [HttpDelete("{id}")]
+    public async Task<IActionResult> DeleteUser(int id)
+    {
+        await _userService.DeleteUser(id);
+        return NoContent();
     }
 }
