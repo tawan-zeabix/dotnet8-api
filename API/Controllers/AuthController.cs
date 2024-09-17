@@ -1,5 +1,6 @@
 using API.Data;
 using API.DTOs.Request;
+using API.DTOs.Response;
 using API.Helpers;
 using API.Models;
 using API.Services.Interfaces;
@@ -23,6 +24,7 @@ public class AuthController : ControllerBase
     [HttpPost("login")]
     public async Task<IActionResult> Login([FromBody] LoginDto model)
     {
-        return Ok(await _authService.Login(model));
+        AuthTokenDto authToken = await _authService.Login(model);
+        return Ok(authToken);
     }
 }

@@ -26,7 +26,7 @@ public class AuthService : IAuthService
         UserModel? user = await _userRepository.GetQueryable()
             .Where(i => i.Username == model.Username)
             .SingleOrDefaultAsync();
-        if (user is null || !_authHelper.VerifyPassword(user.Password, model.Password))
+        if (user is null || !_authHelper.VerifyPassword(model.Username, user.Password, model.Password))
         {
             throw new UnauthorizedAccessException("Invalid username or password");
         }

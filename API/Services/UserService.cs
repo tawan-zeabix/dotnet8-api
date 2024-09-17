@@ -42,7 +42,7 @@ public class UserService : IUserService
                 Id = 0,
                 Email = model.Email,
                 Username = model.Username,
-                Password = _authHelper.HashPassword(model.Password),
+                Password = _authHelper.HashPassword(model.Username, model.Password),
                 Role = model.Role ?? UserRole.User
             };
             await _userRepository.CreateAsync(user);

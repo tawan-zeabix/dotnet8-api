@@ -20,7 +20,7 @@ public class AuthHelper
 
     public string GenerateToken(UserModel user)
     {
-        SymmetricSecurityKey securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["JWT:Secret"]));
+        SymmetricSecurityKey securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["JWT:Secret"] ?? ""));
         SigningCredentials credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
 
         var claims = new[]
@@ -38,15 +38,15 @@ public class AuthHelper
         return new JwtSecurityTokenHandler().WriteToken(token);
     }
 
-    public string HashPassword(string password)
+    public string HashPassword(string username, string password)
     {
-        string hashedPassword = _hasher.HashPassword(null, password);
+        string hashedPassword = _hasher.HashPassword(username, password);
         return hashedPassword;
     }
 
-    public bool VerifyPassword(string hashedPassword, string password)
+    public bool VerifyPassword(string username, string hashedPassword, string password)
     {
-        PasswordVerificationResult result = _hasher.VerifyHashedPassword(null, hashedPassword, password);
+        PasswordVerificationResult result = _hasher.VerifyHashedPassword(username, hashedPassword, password);
         return result == PasswordVerificationResult.Success;
     }
 }
