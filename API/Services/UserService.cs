@@ -10,9 +10,11 @@ namespace API.Services;
 public class UserService : IUserService
 {
     private readonly IUserRepository _userRepository;
-    public UserService(IUserRepository userRepository)
+    private readonly AuthHelper _authHelper;
+    public UserService(IUserRepository userRepository, AuthHelper authHelper)
     {
         _userRepository = userRepository;
+        _authHelper = authHelper;
     }
 
     public async Task<List<UserModel>> GetAllUsers()
@@ -40,6 +42,7 @@ public class UserService : IUserService
                 Id = 0,
                 Email = model.Email,
                 Username = model.Username,
+                Password = _authHelper.HashPassword(model.Password),
                 Role = model.Role ?? UserRole.User
             };
             await _userRepository.CreateAsync(user);
